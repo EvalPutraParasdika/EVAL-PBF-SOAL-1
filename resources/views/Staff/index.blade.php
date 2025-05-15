@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('title', 'Dosen')
+@section('title', 'Staff')
 
-@section('judul', 'Dosen')
+@section('judul', 'Staff')
 
 
 @section('isi')
@@ -23,10 +23,9 @@
             </div>
         @endif
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             <!-- Tombol buka modal tambah -->
             <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalTambah">
-                + Tambah Dosen
+                + Tambah Staff
             </button>
         </div>
         <div class="card-body">
@@ -34,52 +33,45 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>NIP</th>
                             <th>Nama</th>
-                            <th>NIDN</th>
-                            <th>Email</th>
-                            <th>Prodi</th>
+                            <th>Jabatan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($dosen as $dsn)
+                        @foreach ($staff as $stf)
                             <tr>
-                                <!-- Modal Edit dosen -->
-                                <div class="modal fade" id="modalEdit{{ $dsn['id'] }}" tabindex="-1"
-                                    aria-labelledby="modalEditLabel{{ $dsn['id'] }}" aria-hidden="true">
+                                <!-- Modal Edit staff -->
+                                <div class="modal fade" id="modalEdit{{ $stf['NIP'] }}" tabindex="-1"
+                                    aria-labelledby="modalEditLabel{{ $stf['NIP'] }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('dosen.update', $dsn['id']) }}" method="POST">
+                                            <form action="{{ route('staff.update', $stf['NIP']) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalEditLabel{{ $dsn['id'] }}">Edit Dosen
+                                                    <h5 class="modal-title" id="modalEditLabel{{ $stf['NIP'] }}">Edit Staff
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label>NIP</label>
+                                                    <input type="text" name="NIP" class="form-control"
+                                                        value="{{ $stf['NIP'] }}" required>
+                                                </div>
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nama</label>
                                                         <input type="text" name="nama" class="form-control"
-                                                            value="{{ $dsn['nama'] }}" required>
+                                                            value="{{ $stf['nama'] }}" required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>NIDN</label>
-                                                        <input type="text" name="nidn" class="form-control"
-                                                            value="{{ $dsn['nidn'] }}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Email</label>
-                                                        <input type="email" name="email" class="form-control"
-                                                            value="{{ $dsn['email'] }}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Prodi</label>
-                                                        <input type="text" name="prodi" class="form-control"
-                                                            value="{{ $dsn['prodi'] }}" required>
+                                                        <label>Jabatan</label>
+                                                        <input type="jabatan" name="jabatan" class="form-control"
+                                                            value="{{ $stf['jabatan'] }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -92,17 +84,15 @@
                                     </div>
                                 </div>
 
-                                <td>{{ $dsn['id'] }}</td>
-                                <td>{{ $dsn['nama'] }}</td>
-                                <td>{{ $dsn['nidn'] }}</td>
-                                <td>{{ $dsn['email'] }}</td>
-                                <td>{{ $dsn['prodi'] }}</td>
+                                <td>{{ $stf['NIP'] }}</td>
+                                <td>{{ $stf['nama'] }}</td>
+                                <td>{{ $stf['jabatan'] }}</td>
                                 <td>
                                     <!-- Tombol Edit -->
                                     <button class="btn btn-sm btn-warning" data-toggle="modal"
-                                        data-target="#modalEdit{{ $dsn['id'] }}">Edit</button>
+                                        data-target="#modalEdit{{ $stf['NIP'] }}">Edit</button>
 
-                                    <form action="{{ route('dosen.destroy', $dsn['id']) }}" method="POST"
+                                    <form action="{{ route('staff.destroy', $stf['NIP']) }}" method="POST"
                                         style="display:inline-block;"
                                         onsubmit="return confirm('Yakin ingin menghapus data ini?');">
                                         @csrf
@@ -117,34 +107,30 @@
             </div>
         </div>
     </div>
-    <!-- Modal Tambah Dosen -->
+    <!-- Modal Tambah staff -->
     <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('dosen.store') }}" method="POST">
+                <form action="{{ route('staff.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalTambahLabel">Tambah Dosen</h5>
+                        <h5 class="modal-title" id="modalTambahLabel">Tambah Staff</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
+                            <label>NIP</label>
+                            <input type="text" name="NIP" class="form-control" required>
+                        </div>
+                        <div class="form-group">
                             <label>Nama</label>
                             <input type="text" name="nama" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label>NIDN</label>
-                            <input type="text" name="nidn" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Prodi</label>
-                            <input type="text" name="prodi" class="form-control" required>
+                            <label>jabatan</label>
+                            <input type="text" name="jabatan" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -6,17 +6,34 @@ use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
-    // Menghitung jumlah Mahasiswa
     public function index()
     {
-        // Ambil data dari API
+        // Ambil data mahasiswa
         $responseMahasiswa = Http::get('http://localhost:8080/mahasiswa');
-        $jumlahMahasiswa = count($responseMahasiswa->json());
+        $jumlahMahasiswa = is_array($responseMahasiswa->json()) ? count($responseMahasiswa->json()) : 0;
 
-        // Ambil data dari API
-        $responseDosen = Http::get('http://localhost:8080/dosen');
-        $jumlahDosen = count($responseDosen->json());
+        // Ambil data staff
+        $responseStaff = Http::get('http://localhost:8080/staff');
+        $jumlahStaff = is_array($responseStaff->json()) ? count($responseStaff->json()) : 0;
 
-        return view('dashboard', compact('jumlahMahasiswa', 'jumlahDosen'));
+        // Ambil data jurusan
+        $responseJurusan = Http::get('http://localhost:8080/jurusan');
+        $jumlahJurusan = is_array($responseJurusan->json()) ? count($responseJurusan->json()) : 0;
+
+        // Ambil data prodi
+        $responseProdi = Http::get('http://localhost:8080/prodi');
+        $jumlahProdi = is_array($responseProdi->json()) ? count($responseProdi->json()) : 0;
+
+        // Ambil data pengajuan
+        $responsePengajuan = Http::get('http://localhost:8080/pengajuan');
+        $jumlahPengajuan = is_array($responsePengajuan->json()) ? count($responsePengajuan->json()) : 0;
+
+        return view('dashboard', compact(
+            'jumlahMahasiswa',
+            'jumlahStaff',
+            'jumlahJurusan',
+            'jumlahProdi',
+            'jumlahPengajuan'
+        ));
     }
 }

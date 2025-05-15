@@ -2,33 +2,34 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MahasiswaController;
-use App\Http\Controllers\DosenController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\PengajuanController;
 
 Route::get('/', function () {
-    return view('Dashboard.index');
-});
-
-Route::get('/layout', function () {
-    return view('layout');
-});
-
-Route::get('/mahasiswa', function () {
-    return view('mahasiswa');
-});
-
-Route::get('/dosen', function () {
-    return view('dosen');
+    return view('dashboard');
 });
 
 // Routes Mahasiswa
 
 Route::resource('mahasiswa', MahasiswaController::class);
 
-// Routes Dosen
-
-Route::resource('dosen', DosenController::class);
+// Routes Staff
+Route::resource('staff', StaffController::class);
 
 // Routes Dashbard
 
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+// Routes Jurusan
+Route::resource('jurusan', JurusanController::class);
+
+// Routes Prodi
+
+Route::resource('prodi', ProdiController::class);
+
+// Routes PEngajuan
+
+Route::resource('pengajuan', PengajuanController::class);

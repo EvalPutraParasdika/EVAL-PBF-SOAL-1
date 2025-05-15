@@ -12,11 +12,18 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $response = Http::get('http://localhost:8080/mahasiswa');
-        $data = $response->json(); // convert ke array
+        $responseMhs = Http::get('http://localhost:8080/mahasiswa');
+        $responseProdi = Http::get('http://localhost:8080/prodi');
 
-        return view('mahasiswa.index', ['mahasiswa' => $data]);
+        $dataMhs = $responseMhs->json();
+        $dataProdi = $responseProdi->json();
+
+        return view('mahasiswa.index', [
+            'mahasiswa' => $dataMhs['data_mahasiswa'],
+            'prodi' => $dataProdi['data_prodi'] // sesuaikan dengan struktur JSON dari API-mu
+        ]);
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -32,10 +39,12 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nim' => 'required',
+            'NIM' => 'required',
             'nama' => 'required',
-            'email' => 'required|email',
-            'prodi' => 'required',
+            'kelas' => 'required',
+            'semester' => 'required',
+            'status' => 'required',
+            'id_prodi' => 'required'
         ]);
 
         Http::post('http://localhost:8080/mahasiswa', $validated);
@@ -54,37 +63,39 @@ class MahasiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $NIM)
     {
-        $response = Http::get("http://localhost:8080/mahasiswa/{$id}");
+        $response = Http::get("http://localhost:8080/mahasiswa/{$NIM}");
         $mahasiswa = $response->json();
-    
+
         return view('mahasiswa.edit', ['mahasiswa' => $mahasiswa]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $NIM)
     {
         $validated = $request->validate([
-            'nim' => 'required',
+            'NIM' => 'required',
             'nama' => 'required',
-            'email' => 'required|email',
-            'prodi' => 'required',
+            'kelas' => 'required',
+            'semester' => 'required',
+            'status' => 'required',
+            'id_prodi' => 'required'
         ]);
-    
-        Http::put("http://localhost:8080/mahasiswa/{$id}", $validated);
-    
+
+        Http::put("http://localhost:8080/mahasiswa/{$NIM}", $validated);
+
         return redirect('/mahasiswa')->with('success', 'Data berhasil diupdate');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $NIM)
     {
-        Http::delete("http://localhost:8080/mahasiswa/{$id}");
+        Http::delete("http://localhost:8080/mahasiswa/{$NIM}");
 
         return redirect('/mahasiswa')->with('success', 'Data berhasil dihapus');
     }

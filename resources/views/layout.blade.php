@@ -36,9 +36,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-file-alt"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Sistem Pengajuan Cuti</div>
             </a>
 
             <!-- Divider -->
@@ -84,15 +84,32 @@
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('mahasiswa.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Mahasiswa</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('dosen.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Dosen</span></a>
+                <a class="nav-link" href="{{ route('staff.index') }}">
+                    <i class="fas fa-fw fa-user-tie"></i></i>
+                    <span>Staff</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ route('jurusan.index') }}">
+                    <i class="fas fa-fw fa-sitemap"></i>
+                    <span>Jurusan</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ route('prodi.index') }}">
+                    <i class="fas fa-fw fa-graduation-cap"></i>
+                    <span>Prodi</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ route('pengajuan.index') }}">
+                    <i class="fas fa-fw fa-paper-plane"></i>
+                    <span>Pengajuan</span></a>
             </li>
 
             <!-- Divider -->
@@ -249,5 +266,4 @@
     <script src="startbootstrap-sb-admin-2-gh-pages/js/demo/datatables-demo.js"></script>
 
 </body>
-
 </html>

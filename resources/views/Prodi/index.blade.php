@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('title', 'Mahasiswa')
+@section('title', 'Prodi')
 
-@section('judul', 'Mahasiswa')
+@section('judul', 'Prodi')
 
 
 @section('isi')
@@ -23,9 +23,10 @@
             </div>
         @endif
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
             <!-- Tombol buka modal tambah -->
             <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalTambah">
-                + Tambah Mahasiswa
+                + Tambah Prodi
             </button>
         </div>
         <div class="card-body">
@@ -33,28 +34,25 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>NIM</th>
+                            <th>ID Prodi</th>
                             <th>Nama</th>
-                            <th>Kelas</th>
-                            <th>Semester</th>
-                            <th>Status</th>
-                            <th>Nama Prodi</th>
+                            <th>Nama Jurusan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($mahasiswa as $mhs)
+                        @foreach ($prodi as $prd)
                             <tr>
-                                <!-- Modal Edit Mahasiswa -->
-                                <div class="modal fade" id="modalEdit{{ $mhs['NIM'] }}" tabindex="-1"
-                                    aria-labelledby="modalEditLabel{{ $mhs['NIM'] }}" aria-hidden="true">
+                                <!-- Modal Edit Prodi -->
+                                <div class="modal fade" id="modalEdit{{ $prd['id_prodi'] }}" tabindex="-1"
+                                    aria-labelledby="modalEditLabel{{ $prd['id_prodi'] }}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form action="{{ route('mahasiswa.update', $mhs['NIM']) }}" method="POST">
+                                            <form action="{{ route('prodi.update', $prd['id_prodi']) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalEditLabel{{ $mhs['NIM'] }}">Edit Mahasiswa
+                                                    <h5 class="modal-title" id="modalEditLabel{{ $prd['id_prodi'] }}">Edit Prodi
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                                                         <span aria-hidden="true">&times;</span>
@@ -62,34 +60,19 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        <label>NIM</label>
-                                                        <input type="text" name="NIM" class="form-control"
-                                                            value="{{ $mhs['NIM'] }}" required>
+                                                        <label>ID Prodi</label>
+                                                        <input type="text" name="id_prodi" class="form-control"
+                                                            value="{{ $prd['id_prodi'] }}" required>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Nama</label>
                                                         <input type="text" name="nama" class="form-control"
-                                                            value="{{ $mhs['nama'] }}" required>
+                                                            value="{{ $prd['nama'] }}" required>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Kelas</label>
-                                                        <input type="kelas" name="kelas" class="form-control"
-                                                            value="{{ $mhs['kelas'] }}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Semester</label>
-                                                        <input type="text" name="semester" class="form-control"
-                                                            value="{{ $mhs['semester'] }}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Status</label>
-                                                        <input type="text" name="status" class="form-control"
-                                                            value="{{ $mhs['status'] }}" required>
-                                                    </div>
-                                                    <select name="id_prodi" class="form-control" required>
-                                                        @foreach ($prodi as $p)
-                                                            <option value="{{ $p['id_prodi'] }}" {{ $mhs['id_prodi'] == $p['id_prodi'] ? 'selected' : '' }}>
-                                                                {{ $p['nama'] }}
+                                                    <select name="id_jurusan" class="form-control" required>
+                                                        @foreach ($jurusan as $j)
+                                                            <option value="{{ $j['id_jurusan'] }}" {{ $prd['id_prodi'] == $j['id_jurusan'] ? 'selected' : '' }}>
+                                                                {{ $j['nama'] }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -104,18 +87,15 @@
                                     </div>
                                 </div>
 
-                                <td>{{ $mhs['NIM'] }}</td>
-                                <td>{{ $mhs['nama'] }}</td>
-                                <td>{{ $mhs['kelas'] }}</td>
-                                <td>{{ $mhs['semester'] }}</td>
-                                <td>{{ $mhs['status'] }}</td>
-                                <td>{{ $mhs['nama_prodi'] }}</td>
+                                <td>{{ $prd['id_prodi'] }}</td>
+                                <td>{{ $prd['nama'] }}</td>
+                                <td>{{ $prd['nama_jurusan'] }}</td>
                                 <td>
                                     <!-- Tombol Edit -->
                                     <button class="btn btn-sm btn-warning" data-toggle="modal"
-                                        data-target="#modalEdit{{ $mhs['NIM'] }}">Edit</button>
+                                        data-target="#modalEdit{{ $prd['id_prodi'] }}">Edit</button>
 
-                                    <form action="{{ route('mahasiswa.destroy', $mhs['NIM']) }}" method="POST"
+                                    <form action="{{ route('prodi.destroy', $prd['id_prodi']) }}" method="POST"
                                         style="display:inline-block;"
                                         onsubmit="return confirm('Yakin ingin menghapus data ini?');">
                                         @csrf
@@ -130,51 +110,38 @@
             </div>
         </div>
     </div>
-    <!-- Modal Tambah Mahasiswa -->
+    <!-- Modal Tambah Prodi-->
     <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('mahasiswa.store') }}" method="POST">
+                <form action="{{ route('prodi.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalTambahLabel">Tambah Mahasiswa</h5>
+                        <h5 class="modal-title" id="modalTambahLabel">Tambah Prodi</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>NIM</label>
-                            <input type="text" name="NIM" class="form-control" value="" required>
+                            <label>ID Prodi</label>
+                            <input type="text" name="id_prodi" class="form-control" value="" required>
                         </div>
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" name="nama" class="form-control" value="" required>
                         </div>
-                        <div class="form-group">
-                            <label>Kelas</label>
-                            <input type="kelas" name="kelas" class="form-control" value="" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Semester</label>
-                            <input type="text" name="semester" class="form-control" value="" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Status</label>
-                            <input type="text" name="status" class="form-control" value="" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Prodi</label>
-                            <select name="id_prodi" class="form-control" required>
-                                @foreach ($prodi as $p)
-                                    <option value="{{ $p['id_prodi'] }}">{{ $p['nama'] }}</option>
+                            <label>Jurusan</label>
+                            <select name="id_jurusan" class="form-control" required>
+                                @foreach ($jurusan as $j)
+                                    <option value="{{ $j['id_jurusan'] }}">{{ $j['nama'] }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Simpan</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-success">Simpan</button>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                      </div>
                     </div>
                 </form>
             </div>
